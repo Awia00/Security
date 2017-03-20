@@ -4,11 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Storage
+namespace Storage.Database
 {
-    public class InstaRootContext : DbContext
+    public class InstarootContext : DbContext
     {
-        public InstaRootContext(DbContextOptions<InstaRootContext> options)
+        public InstarootContext(DbContextOptions<InstarootContext> options)
             : base(options)
         { }
         public DbSet<User> Users { get; set; }
