@@ -1,12 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Common.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Storage.Database;
 
 namespace Instaroot
 {
@@ -29,7 +31,37 @@ namespace Instaroot
         {
             // Add framework services.
             services.AddMvc();
+            services.AddDbContext<InstarootContext>(o =>
+            {
+                o.UseNpgsql(Configuration.GetConnectionString("InstarootContext"));
+            });
             services.AddEntityFrameworkNpgsql();
+            services.AddDbContext<InstarootContext>();
+            services.AddIdentity<User, IdentityRole>()
+                .AddEntityFrameworkStores<InstarootContext>()
+                .AddDefaultTokenProviders();
+
+            services.Configure<IdentityOptions>(options =>
+            {
+                // Password settings
+                options.Password.RequireDigit = true;
+                options.Password.RequiredLength = 8;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = true;
+                options.Password.RequireLowercase = false;
+
+                // Lockout settings
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
+                options.Lockout.MaxFailedAccessAttempts = 10;
+
+                // Cookie settings
+                options.Cookies.ApplicationCookie.ExpireTimeSpan = TimeSpan.FromDays(15);
+                options.Cookies.ApplicationCookie.LoginPath = "/Accounts/Login";
+                options.Cookies.ApplicationCookie.LogoutPath = "/Accounts/LogOut";
+
+                // User settings
+                options.User.RequireUniqueEmail = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,6 +81,8 @@ namespace Instaroot
             }
 
             app.UseStaticFiles();
+
+            app.UseIdentity();
 
             app.UseMvc(routes =>
             {
