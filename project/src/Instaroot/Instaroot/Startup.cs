@@ -33,7 +33,7 @@ namespace Instaroot
             services.AddMvc();
             services.AddDbContext<InstarootContext>(o =>
             {
-                o.UseNpgsql(Configuration.GetConnectionString("InstarootContext"));
+                o.UseNpgsql(Configuration.GetConnectionString("InstarootContext"), b => b.MigrationsAssembly("Instaroot"));
             });
             services.AddEntityFrameworkNpgsql();
             services.AddDbContext<InstarootContext>();

@@ -7,6 +7,8 @@ namespace Storage.Database
     public class InstarootContext : IdentityDbContext<User>
     {
         public InstarootContext(DbContextOptions options) : base(options) { }
+        public InstarootContext() {}
+
         public DbSet<Image> Images { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<ImageUser> ImageUsers { get; set; }
