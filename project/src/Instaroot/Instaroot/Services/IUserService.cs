@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Storage.Services
+namespace Instaroot.Services
 {
     public interface IUserService
     {

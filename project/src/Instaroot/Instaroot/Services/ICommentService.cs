@@ -4,12 +4,11 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Storage.Services
+namespace Instaroot.Services
 {
     public interface ICommentService
     {
-        Task<IEnumerable<Comment>> GetComments();
-        Task<Comment> GetComment(int id);
+        Task<IEnumerable<Comment>> GetComments(string userId);
         Task PostComment(Comment comment);
         Task PutComment(Comment comment);
     }

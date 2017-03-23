@@ -8,9 +8,10 @@ using Storage.Database;
 namespace Storage.Migrations
 {
     [DbContext(typeof(InstarootContext))]
-    partial class InstarootContextModelSnapshot : ModelSnapshot
+    [Migration("20170323094539_userIdText")]
+    partial class userIdText
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasDefaultSchema("public")

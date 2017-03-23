@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Storage.Services
+namespace Instaroot.Services
 {
     public interface IImageService
     {
-        Task<IEnumerable<Image>> GetImages();
-        Task<Image> GetImage(int id);
+        Task<IEnumerable<Image>> GetImages(string userId);
+        Task<Image> GetImage(string userId, int id);
         Task PostImage(Image image);
-        Task PutImage(Image image);
+        Task DeleteImage(Image image);
     }
 }

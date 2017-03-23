@@ -2,29 +2,42 @@
 using System.Collections.Generic;
 using System.Text;
 using Common.Models;
+using Storage.Database;
+using System.Threading.Tasks;
 
 namespace Storage.Services
 {
     public class ImageService : IImageService
     {
-        public Image GetImage(int id)
+        InstarootContext _context;
+        public ImageService(InstarootContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
+        }
+        public async Task<Image> GetImage(int id)
+        {
+            return await _context.Images.FindAsync(id);
         }
 
-        public IEnumerable<Image> GetImages()
+        public async Task<IEnumerable<Image>> GetImages()
         {
-            throw new NotImplementedException();
+            return await Task.FromResult(_context.Images);
         }
 
-        public void PostImage(Image image)
+        public async Task PostImage(Image image)
         {
-            throw new NotImplementedException();
+            if (image == null)
+                return;
+            _context.Images.Add(image);
+            await _context.SaveChangesAsync();
         }
 
-        public void PutImage(Image image)
+        public async Task PutImage(Image image)
         {
-            throw new NotImplementedException();
+            if (image == null)
+                return;
+            _context.Images.Update(image);
+            await _context.SaveChangesAsync();
         }
     }
 }

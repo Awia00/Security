@@ -5,7 +5,7 @@ using Common.Models;
 using Storage.Database;
 using System.Threading.Tasks;
 
-namespace Storage.Services
+namespace Instaroot.Services
 {
     public class UserService : IUserService
     {

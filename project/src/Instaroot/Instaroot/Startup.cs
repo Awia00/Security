@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Storage.Database;
+using Instaroot.Services;
 
 namespace Instaroot
 {
@@ -62,6 +63,11 @@ namespace Instaroot
                 // User settings
                 options.User.RequireUniqueEmail = true;
             });
+
+            // Services
+            services.AddTransient<IImageService, ImageService>();
+            services.AddTransient<ICommentService, CommentService>();
+            services.AddTransient<IUserService, UserService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

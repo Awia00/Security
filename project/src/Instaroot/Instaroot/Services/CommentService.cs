@@ -1,11 +1,15 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 using Common.Models;
 using Storage.Database;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
-namespace Storage.Services
+namespace Instaroot.Services
 {
     public class CommentService : ICommentService
     {
@@ -14,28 +18,24 @@ namespace Storage.Services
         {
             _context = context;
         }
-        public async Task<Comment> GetComment(int id)
-        {
-            return await _context.Comments.FindAsync(id);
-        }
 
-        public async Task<IEnumerable<Comment>> GetComments()
-        {   
-            return await Task.FromResult(_context.Comments);
+        public async Task<IEnumerable<Comment>> GetComments(string userId)
+        {
+            return await Task.FromResult(_context.Comments.Include(comment => comment.User).Where(comment => comment.User.Id == userId));
         }
 
         public async Task PostComment(Comment comment)
         {
-            if (comment == null)
-                return;
+            if (comment == null || comment.User != null)
+                throw new ArgumentException("Null comment or user");
             _context.Comments.Add(comment);
             await _context.SaveChangesAsync();
         }
 
         public async Task PutComment(Comment comment)
         {
-            if (comment == null)
-                return;
+            if (comment == null || comment.User != null)
+                throw new ArgumentException("Null comment or user");
             _context.Comments.Update(comment);
             await _context.SaveChangesAsync();
         }

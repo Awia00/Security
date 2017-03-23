@@ -1,5 +1,19 @@
-﻿@{
+﻿@using Common.Models
+@model List<Image>
+@{
     ViewBag.Title = "Feed";
 }
 
 <h2>@ViewBag.Title</h2>
+
+@if (Model.Any())
+{
+    @foreach (Image image in Model)
+    {
+        <p> yoyo </p>
+    }
+}else
+{
+    <p>You have no images in your feed</p>
+}
+
