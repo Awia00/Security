@@ -23,15 +23,8 @@ namespace Instaroot.Controllers
         public async Task<IActionResult> Index()
         {
             var userId = _userManager.GetUserId(User);
-            try
-            {
-                var images = await _imageService.GetImages(userId);
-                return View(images.ToList());
-            }
-            catch (Exception)
-            {
-                return View("Error");
-            }
+            var images = await _imageService.GetImages(userId);
+            return View(images.ToList());
         }
     }
 }
