@@ -4,41 +4,49 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Instaroot</title>
-    <link rel="stylesheet" href="//ajax.aspnetcdn.com/ajax/bootstrap/3.3.5/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a asp-controller="Home" asp-action="Index" class="navbar-brand">Instaroot</a>
-            </div>
-            <div class="navbar-collapse collapse">
+    <div class="container">
+        <nav class="navbar navbar-light bg-faded" role="navigation">
+            <button class="navbar-toggler hidden-sm-up" type="button" data-toggle="collapse" data-target="#collapsing-navbar">
+                &#9776;
+            </button>
+            <a asp-controller="Home" asp-action="Index" class="navbar-brand">Instaroot</a>
+            <div class="collapse navbar-toggleable-xs" id="collapsing-navbar">
                 <ul class="nav navbar-nav">
-                    <li><a asp-controller="Feed" asp-action="Index">Feed</a></li>
+                    @await Html.PartialAsync("_LoginPartial")
                 </ul>
-                @await Html.PartialAsync("_LoginPartial")
             </div>
+        </nav>
+        <div class="container body-content">
+            @RenderBody()
+            <hr />
+            <footer>
+                <p>&copy; 2017 - Instaroot</p>
+            </footer>
         </div>
-    </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; 2017 - Instaroot</p>
-        </footer>
-    </div>
 
-    <script src="//ajax.aspnetcdn.com/ajax/jquery/jquery-2.1.4.min.js"></script>
-    <script src="//ajax.aspnetcdn.com/ajax/bootstrap/3.3.5/bootstrap.min.js"></script>
-    <script src="~/js/site.min.js" asp-append-version="true"></script>
+        <script src="//ajax.aspnetcdn.com/ajax/jquery/jquery-2.1.4.min.js"></script>
+        <script src="//ajax.aspnetcdn.com/ajax/bootstrap/3.3.5/bootstrap.min.js"></script>
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+        <script type="text/javascript">
+            function update_filename(src, target) {
+                var fullPath = document.getElementById(src).value;
+                if (fullPath) {
+                    var startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
+                    var filename = fullPath.substring(startIndex);
+                    if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
+                        filename = filename.substring(1);
+                    }
+                    document.getElementById(target).value = filename;
+                }
+            }
+        </script>
+        @RenderSection("scripts", required: false)
 
-    @RenderSection("scripts", required: false)
+    </div>
 </body>
 </html>

@@ -1,26 +1,92 @@
 ﻿@using Common.Models
 @using Microsoft.AspNetCore.Identity
 
+@model Instaroot.ViewModels.LoginViewModel
+
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
 
+@{
+    ViewData["ReturnUrl"] = "/Feed/Index/";
+}
+
 @if (SignInManager.IsSignedIn(User))
 {
-    <form asp-controller="Accounts" asp-action="LogOut" method="post" id="logoutForm" class="navbar-right">
-        <ul class="nav navbar-nav navbar-right">
-            <li>
-                <a>Hello @UserManager.GetUserName(User)!</a>
-            </li>
-            <li>
-                <button type="submit" class="btn btn-link navbar-btn navbar-link">Log off</button>
-            </li>
-        </ul>
+    <li class="nav-item hidden-md-up">
+        <a class="nav-link" data-toggle="modal" data-target="#uploadModal">Upload</a>
+    </li>
+    <li class="nav-item">
+        <form asp-controller="Accounts" asp-action="LogOut" method="post" id="logoutForm">
+            <button asp-controller="Accounts" asp-action="LogOut"class="btn btn-link navbar-btn navbar-link">Log off</button>
+        </form>
+    </li>
+
+    <form class="form-inline pull-xs-right hidden-sm-down" action="upload.php" method="post" enctype="multipart/form-data">
+        <input id="image-inline" type="file" class="form-control" name="image" accept="image/*" required onchange="update_filename('image-inline','filename-inline')" hidden>
+        <div class="form-group has-primary">
+            <div class="input-group">
+                <span class="input-group-btn">
+                    <button class="btn btn-primary-outline no-border-right" onclick="document.getElementById('image-inline').click();return false;">
+                        <i class="fa fa-file-image-o"></i>
+                    </button>
+                </span>
+                <input id="filename-inline" type="text" required class="form-control form-control-primary" placeholder="Select file">
+                <span class="input-group-btn">
+                    <button type="submit" class="btn btn-primary-outline">Upload</button>
+                </span>
+            </div>
+         </div>
     </form>
+    <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Upload image</h4>
+                </div>
+                <form method="post" action="upload.php" enctype="multipart/form-data">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input id="image" type="file" class="form-control" name="image" accept="image/*" required onchange="update_filename('image','filename')" hidden>
+                        </div>
+                        <div class="form-group has-primary">
+                            <div class="input-group">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-primary-outline no-border-right" onclick="document.getElementById('image').click();return false;">
+                                        <i class="fa fa-file-image-o"></i>
+                                    </button>
+                                </span>
+                                <input id="filename" type="text" class="form-control form-control-primary" placeholder="Select file">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Upload</button>
+                        </div>
+                     </div>
+                </form>
+            </div>
+        </div>
+    </div>
 }
 else
 {
-    <ul class="nav navbar-nav navbar-right">
-        <li><a asp-controller="Accounts" asp-action="SignUp">Sign up</a></li>
-        <li><a asp-controller="Accounts" asp-action="Login">Log in</a></li>
-    </ul>
+    <li class="nav-item hidden-lg-up">
+        <a class="nav-link" asp-controller="Accounts" asp-action="Login">Login</a>
+    </li>
+    <li class="nav-item hidden-lg-up">
+        <a asp-controller="Accounts" asp-action="SignUp" class="nav-link" >Register</a>
+    </li>
+    <form asp-controller="Accounts" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" role="form" id="login-form" class="form-inline pull-xs-right hidden-md-down" method="post">
+        <div class="form-group">
+            <input placeholder="Username" type="text" class="form-control" asp-for="UserName">
+        </div>
+        <div class="form-group">
+            <input placeholder="Password" type="password" class="form-control" asp-for="Password">
+        </div>
+        <button type="submit" class="btn btn-success-outline">Login</button>
+        <button asp-controller="Accounts" asp-action="SignUp" class="btn btn-success-outline">Register</button>
+    </form>
 }
