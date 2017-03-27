@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Instaroot.Models
 {
@@ -6,6 +7,7 @@ namespace Instaroot.Models
     {
         public int Id { get; set; }
         public string Path { get; set; }
+        public DateTime TimeStamp { get; set; }
 
         // Relations
         public User Owner { get; set; }

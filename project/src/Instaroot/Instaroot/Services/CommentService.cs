@@ -11,6 +11,7 @@ namespace Instaroot.Services
     public class CommentService : ICommentService
     {
         private readonly InstarootContext _context;
+
         public CommentService(InstarootContext context)
         {
             _context = context;
@@ -23,17 +24,28 @@ namespace Instaroot.Services
 
         public async Task PostComment(Comment comment)
         {
-            if (comment == null || comment.User != null)
-                throw new ArgumentException("Null comment or user");
-            _context.Comments.Add(comment);
-            await _context.SaveChangesAsync();
+            if (comment?.User?.Id == null || comment.ImageId == 0)
+                throw new ArgumentException("Null comment, user or imageId");
+            if (_context.ImageUsers.Any(imageUser => imageUser.UserId == comment.User.Id && comment.ImageId == imageUser.ImageId))
+            {
+                _context.Comments.Add(comment);
+                await _context.SaveChangesAsync();
+            }
         }
 
         public async Task PutComment(Comment comment)
         {
-            if (comment == null || comment.User != null)
-                throw new ArgumentException("Null comment or user");
+            if (comment?.User?.Id == null || comment.ImageId == 0)
+                throw new ArgumentException("Null comment, user or imageId");
             _context.Comments.Update(comment);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteComment(Comment comment)
+        {
+            if (comment?.User?.Id == null || comment.ImageId == 0)
+                throw new ArgumentException("Null comment, user or imageId");
+            _context.Comments.Remove(comment);
             await _context.SaveChangesAsync();
         }
     }

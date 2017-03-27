@@ -8,9 +8,10 @@ using Instaroot.Storage.Database;
 namespace Instaroot.Storage.Migrations
 {
     [DbContext(typeof(InstarootContext))]
-    partial class InstarootContextModelSnapshot : ModelSnapshot
+    [Migration("20170327165747_image timestamp")]
+    partial class imagetimestamp
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasDefaultSchema("public")

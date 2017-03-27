@@ -9,7 +9,7 @@ namespace Instaroot.Services
 {
     public class UserService : IUserService
     {
-        InstarootContext _context;
+        private readonly InstarootContext _context;
         public UserService(InstarootContext context)
         {
             _context = context;

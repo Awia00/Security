@@ -11,7 +11,7 @@ namespace Instaroot.Services
 {
     public class ImageService : IImageService
     {
-        InstarootContext _context;
+        private readonly InstarootContext _context;
         public ImageService(InstarootContext context)
         {
             _context = context;
@@ -36,7 +36,7 @@ namespace Instaroot.Services
 
         public async Task PostImage(Image image)
         {
-            if (image == null || image.Owner == null)
+            if (image?.Owner?.Id == null)
                 throw new ArgumentException("Null image or user");
             _context.Images.Add(image);
             await _context.SaveChangesAsync();
@@ -44,7 +44,7 @@ namespace Instaroot.Services
     
         public async Task DeleteImage(Image image)
         {
-            if (image == null || image.Owner == null)
+            if (image?.Owner?.Id == null)
                 throw new ArgumentException("Null image or user");
             _context.Images.Remove(image);
             await _context.SaveChangesAsync();

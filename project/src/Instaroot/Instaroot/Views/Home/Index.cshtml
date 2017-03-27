@@ -1,4 +1,4 @@
-﻿@model List<Image>
+﻿@model List<ImageViewModel>
 @{
     ViewBag.Title = "Feed";
 }
@@ -8,19 +8,8 @@
 @if (Model.Any())
 {
     <div class="card-columns">
-        @foreach (Image image in Model)
-        {
-            <div class="card">
-                <a asp-controller="Image" asp-action="Display" asp-route-id="@image.Id">
-                    <img class="card-img-top" src="@image.Path" />
-                </a>
-                <div class="card-footer">
-                    <span class="text-muted">posted by @image.Owner.</span>
-                </div>
-            </div>
-        }
+        @Html.DisplayFor(model => model)
     </div>
-
 }
 else
 {

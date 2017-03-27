@@ -1,0 +1,20 @@
+﻿@model ImageViewModel
+
+<div class="image @Model.IsOwner ? image-owned : image-shared">
+    <img src="@Model.ImageUrl" style="max-width: 75%" alt="Image should be here :-(" />
+
+    @if (Model.IsOwner)
+    {
+        <form asp-action="Share" asp-controller="Images" method="post">
+            @Html.DropDownList("ShareWithUser", (ViewBag.Usernames as IEnumerable<string>).Select(username => new SelectListItem(){Text = username, Value = username}))
+            <input type="submit" value="Share" class="btn btn-success"/>
+        </form>
+    }
+    
+    <form method="post" asp-action="Post" asp-controller="Comments">
+        <input type="text" name="comment" />
+        <input type="submit" value="Post" />
+    </form>
+    
+    @Html.DisplayFor(model => model.Comments)
+</div>
