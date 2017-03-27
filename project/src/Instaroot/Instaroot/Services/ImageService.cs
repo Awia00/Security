@@ -22,6 +22,7 @@ namespace Instaroot.Services
             return await Task.FromResult(_context.Images
                 .Include(image => image.Owner)
                 .Include(image => image.Users)
+                .Include(image => image.Comments)
                 .Where(image => image.Owner.Id == userId || image.Users.Any(imageUser => imageUser.UserId == userId)));
         }
         public async Task<Image> GetImage(string userId, int id)

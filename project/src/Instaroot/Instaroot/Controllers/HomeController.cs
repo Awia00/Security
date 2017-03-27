@@ -26,7 +26,7 @@ namespace Instaroot.Controllers
         {
             var userId = _userManager.GetUserId(User);
             var images = await _imageService.GetImages(userId);
-            ViewBag.Usernames = await _userService.GetUsers();
+            ViewBag.Usernames = (await _userService.GetUsers()).Select(user => user.UserName);
             return View(images.OrderByDescending(image => image.TimeStamp).Select(image => new ImageViewModel
             {
                 IsOwner = image.Owner.Id == userId,

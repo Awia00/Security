@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Instaroot.Models;
 using Instaroot.Services;
+using Microsoft.ApplicationInsights.AspNetCore.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -41,24 +42,20 @@ namespace Instaroot.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(IFormFile image)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && image.ContentType.StartsWith("image/"))
             {
-                switch (Path.GetExtension(image.FileName).ToLower())
+                var imageUrl = await _fileShockerService.UploadImage(image);
+
+                var uri = Request.GetUri();
+                var port = uri.Port == 80 ? "" : $":{uri.Port}";
+                imageUrl = $"http://{uri.Host}{port}/uploads/{imageUrl}";
+
+                await _imageService.PostImage(new Image
                 {
-                    case "png":
-                    case "jpg":
-                    case "jpeg":
-                    case "bmp":
-                    case "gif":
-                        var imageUrl = await _fileShockerService.UploadImage(image);
-                        await _imageService.PostImage(new Image
-                        {
-                            Owner = await _userManager.GetUserAsync(User),
-                            Path = imageUrl,
-                            TimeStamp = DateTime.Now
-                        });
-                        break;
-                }
+                    Owner = await _userManager.GetUserAsync(User),
+                    Path = imageUrl,
+                    TimeStamp = DateTime.Now
+                });
             }
             return RedirectToAction("Index", "Home");
         }

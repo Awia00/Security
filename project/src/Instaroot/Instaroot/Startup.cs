@@ -65,9 +65,10 @@ namespace Instaroot
             });
 
             // Services
-            services.AddTransient<IImageService, ImageService>();
-            services.AddTransient<ICommentService, CommentService>();
-            services.AddTransient<IUserService, UserService>();
+            services.AddScoped<IImageService, ImageService>();
+            services.AddScoped<ICommentService, CommentService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IFileShockerService, FileShockerService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

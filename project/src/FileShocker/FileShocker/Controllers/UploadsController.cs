@@ -14,11 +14,13 @@ namespace FileShocker.Controllers
     {
         private readonly IHostingEnvironment _environment;
         private readonly ILoginManager _loginManager;
+        private readonly IFileStorageService _fileStorageService;
 
-        public UploadsController(IHostingEnvironment environment, ILoginManager loginManager)
+        public UploadsController(IHostingEnvironment environment, ILoginManager loginManager, IFileStorageService fileStorageService)
         {
             _environment = environment;
             _loginManager = loginManager;
+            _fileStorageService = fileStorageService;
         }
 
         
@@ -26,17 +28,14 @@ namespace FileShocker.Controllers
         [HttpPost("")]
         public async Task<IActionResult> Post(string username, string password, IFormFile file)
         {
-            if (!_loginManager.Login(username, password)) return Unauthorized();
+            if (!ModelState.IsValid || !_loginManager.Login(username, password))
+                return Unauthorized();
 
-            var filename = $"{Guid.NewGuid()}.{Path.GetExtension(file.FileName)}";
+            var filename = $"{Guid.NewGuid()}{Path.GetExtension(file.FileName)}";
 
-            using (
-                var filestream = new FileStream(Path.Combine(_environment.WebRootPath, "uploads", filename), FileMode.CreateNew))
-            {
-                await file.CopyToAsync(filestream);
-            }
-
-            return Created($"http://{Request.GetUri().Host}/uploads/{filename}", filename);
+            await _fileStorageService.StoreFile(file, filename);
+            
+            return Created($"{filename}", filename);
         }
     }
 }

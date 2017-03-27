@@ -32,7 +32,8 @@ namespace FileShocker
             // Add framework services.
             services.AddMvc();
 
-            services.AddSingleton<ILoginManager>(new LoginManager(Configuration.GetValue<string>("username"), Configuration.GetValue<string>("password")));
+            services.AddSingleton<ILoginManager>(new LoginManager(Configuration.GetValue<string>("fileshockerUsername"), Configuration.GetValue<string>("fileshockerPassword")));
+            services.AddSingleton<IFileStorageService>(new FileStorageService(Configuration.GetValue<string>("fileshockerFileFolder")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
