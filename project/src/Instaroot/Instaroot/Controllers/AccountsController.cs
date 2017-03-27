@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Common.Models;
+using Instaroot.Models;
 using Instaroot.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

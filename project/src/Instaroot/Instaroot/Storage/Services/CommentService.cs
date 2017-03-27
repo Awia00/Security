@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Common.Models;
-using Storage.Database;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Instaroot.Models;
+using Instaroot.Storage.Database;
 
-namespace Storage.Services
+namespace Instaroot.Storage.Services
 {
     public class CommentService : ICommentService
     {

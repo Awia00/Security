@@ -1,5 +1,4 @@
 ﻿using System;
-using Common.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -8,8 +7,9 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Storage.Database;
 using Instaroot.Services;
+using Instaroot.Storage.Database;
+using User = Instaroot.Models.User;
 
 namespace Instaroot
 {
@@ -34,7 +34,7 @@ namespace Instaroot
             services.AddMvc();
             services.AddDbContext<InstarootContext>(o =>
             {
-                o.UseNpgsql(Configuration.GetConnectionString("InstarootContext"), b => b.MigrationsAssembly("Storage"));
+                o.UseNpgsql(Configuration.GetConnectionString("InstarootContext"), b => b.MigrationsAssembly("Instaroot"));
             });
             services.AddEntityFrameworkNpgsql();
             services.AddDbContext<InstarootContext>();

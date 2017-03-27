@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
-using System.Text;
-using Common.Models;
-using Storage.Database;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Instaroot.Storage.Database;
+using Instaroot.Models;
 
 namespace Instaroot.Services
 {

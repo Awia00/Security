@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Storage.Migrations
+namespace Instaroot.Storage.Migrations
 {
     public partial class userIdText : Migration
     {

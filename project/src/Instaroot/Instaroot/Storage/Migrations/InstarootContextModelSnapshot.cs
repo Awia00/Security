@@ -1,11 +1,11 @@
 ﻿using System;
+using Instaroot.Storage.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Storage.Database;
 
-namespace Storage.Migrations
+namespace Instaroot.Storage.Migrations
 {
     [DbContext(typeof(InstarootContext))]
     partial class InstarootContextModelSnapshot : ModelSnapshot

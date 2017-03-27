@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Common.Models
+namespace Instaroot.Models
 {
     public class Comment
     {

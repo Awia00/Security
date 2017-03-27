@@ -1,8 +1,8 @@
-﻿using Common.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Instaroot.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
-namespace Storage.Database
+namespace Instaroot.Storage.Database
 {
     public class InstarootContext : IdentityDbContext<User>
     {

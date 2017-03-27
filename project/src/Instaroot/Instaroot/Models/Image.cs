@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Common.Models
+namespace Instaroot.Models
 {
     public class Image
     {

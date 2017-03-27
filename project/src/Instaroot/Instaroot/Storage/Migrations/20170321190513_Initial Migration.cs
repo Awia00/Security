@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace Storage.Migrations
+namespace Instaroot.Storage.Migrations
 {
     public partial class InitialMigration : Migration
     {

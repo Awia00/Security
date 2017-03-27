@@ -1,14 +1,8 @@
-﻿@using Common.Models
-@using Microsoft.AspNetCore.Identity
-
-@model Instaroot.ViewModels.LoginViewModel
+﻿@using Microsoft.AspNetCore.Identity
 
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
 
-@{
-    ViewData["ReturnUrl"] = "/Feed/Index/";
-}
 
 @if (SignInManager.IsSignedIn(User))
 {
@@ -81,10 +75,10 @@ else
     </li>
     <form asp-controller="Accounts" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" role="form" id="login-form" class="form-inline pull-xs-right hidden-md-down" method="post">
         <div class="form-group">
-            <input placeholder="Username" type="text" class="form-control" asp-for="UserName">
+            <input placeholder="Username" type="text" class="form-control" name="UserName">
         </div>
         <div class="form-group">
-            <input placeholder="Password" type="password" class="form-control" asp-for="Password">
+            <input placeholder="Password" type="password" class="form-control" name="Password">
         </div>
         <button type="submit" class="btn btn-success-outline">Login</button>
         <button asp-controller="Accounts" asp-action="SignUp" class="btn btn-success-outline">Register</button>

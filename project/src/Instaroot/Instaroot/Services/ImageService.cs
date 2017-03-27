@@ -2,8 +2,8 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.Text;
-using Common.Models;
-using Storage.Database;
+using Instaroot.Models;
+using Instaroot.Storage.Database;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 

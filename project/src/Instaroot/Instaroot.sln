@@ -5,10 +5,6 @@ VisualStudioVersion = 15.0.26228.9
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Instaroot", "Instaroot\Instaroot.csproj", "{BB11C75F-3FDA-484E-ADCB-FFE927F297EC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{EF1CFCDB-64F9-45A6-8701-3665C322A202}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Storage", "Storage\Storage.csproj", "{FD68678F-FDF3-422A-BD98-27FD8E827FFD}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,14 +15,6 @@ Global
 		{BB11C75F-3FDA-484E-ADCB-FFE927F297EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB11C75F-3FDA-484E-ADCB-FFE927F297EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BB11C75F-3FDA-484E-ADCB-FFE927F297EC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EF1CFCDB-64F9-45A6-8701-3665C322A202}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EF1CFCDB-64F9-45A6-8701-3665C322A202}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EF1CFCDB-64F9-45A6-8701-3665C322A202}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EF1CFCDB-64F9-45A6-8701-3665C322A202}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FD68678F-FDF3-422A-BD98-27FD8E827FFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FD68678F-FDF3-422A-BD98-27FD8E827FFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FD68678F-FDF3-422A-BD98-27FD8E827FFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FD68678F-FDF3-422A-BD98-27FD8E827FFD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

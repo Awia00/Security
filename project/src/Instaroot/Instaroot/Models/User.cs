@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
-namespace Common.Models
+namespace Instaroot.Models
 {
     public class User : IdentityUser
     {

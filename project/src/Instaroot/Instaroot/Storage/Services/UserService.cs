@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using Common.Models;
-using Storage.Database;
 using System.Threading.Tasks;
+using Instaroot.Models;
+using Instaroot.Storage.Database;
 
-namespace Storage.Services
+namespace Instaroot.Storage.Services
 {
     public class UserService : IUserService
     {
-        InstarootContext _context;
+        private readonly InstarootContext _context;
         public UserService(InstarootContext context)
         {
             _context = context;

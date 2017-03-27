@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Common.Models;
-using Storage.Database;
 using System.Threading.Tasks;
+using Instaroot.Models;
+using Instaroot.Storage.Database;
 
 namespace Instaroot.Services
 {
