@@ -1,32 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
+using Instaroot.Models;
+using Instaroot.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Instaroot.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
-        public IActionResult Index()
-        {
-            if (User.Identity.IsAuthenticated) return RedirectToAction("Index", "Feed");
+        private readonly IImageService _imageService;
+        private readonly UserManager<User> _userManager;
 
-            return View();
+        public HomeController(IImageService imageService, UserManager<User> userManager)
+        {
+            _imageService = imageService;
+            _userManager = userManager;
         }
-
-        public IActionResult About()
+        public async Task<IActionResult> Index()
         {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
+            var userId = _userManager.GetUserId(User);
+            var images = await _imageService.GetImages(userId);
+            return View(images.ToList());
         }
 
         public IActionResult Error()
