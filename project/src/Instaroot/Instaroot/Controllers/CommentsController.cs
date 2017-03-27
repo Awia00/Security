@@ -4,11 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Instaroot.Models;
 using Instaroot.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Instaroot.Controllers
 {
+    [Authorize]
     public class CommentsController : Controller
     {
         private readonly ICommentService _commentService;
@@ -20,18 +22,14 @@ namespace Instaroot.Controllers
             _userManager = userManager;
         }
 
-        [HttpDelete]
+        [HttpPost]
         public async Task<IActionResult> Delete(int commentId)
         {
             if (ModelState.IsValid)
             {
                 var user = await _userManager.GetUserAsync(User);
 
-                await _commentService.DeleteComment(new Comment
-                {
-                    User = user,
-                    Id = commentId
-                });
+                await _commentService.DeleteComment(user, commentId);
             }
             return RedirectToAction("Index", "Home");
         }

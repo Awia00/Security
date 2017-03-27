@@ -29,10 +29,12 @@ namespace Instaroot.Controllers
             ViewBag.Usernames = (await _userService.GetUsers()).Select(user => user.UserName);
             return View(images.OrderByDescending(image => image.TimeStamp).Select(image => new ImageViewModel
             {
+                Id = image.Id,
                 IsOwner = image.Owner.Id == userId,
                 Comments = image.Comments.OrderByDescending(comment => comment.TimeStamp).Select(comment => new CommentViewModel
                 {
                     Text = comment.Text,
+                    Author = comment.User.UserName,
                     IsAuthor = comment.User.Id == userId,
                     Id = comment.Id
                 }).ToList(),
@@ -41,6 +43,7 @@ namespace Instaroot.Controllers
             }).ToList());
         }
 
+        [AllowAnonymous]
         public IActionResult Error()
         {
             return View();

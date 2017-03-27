@@ -26,10 +26,15 @@ namespace Instaroot.Services
         {
             if (comment?.User?.Id == null || comment.ImageId == 0)
                 throw new ArgumentException("Null comment, user or imageId");
-            if (_context.ImageUsers.Any(imageUser => imageUser.UserId == comment.User.Id && comment.ImageId == imageUser.ImageId))
+            if (await _context.ImageUsers.AnyAsync(imageUser => imageUser.UserId == comment.User.Id && comment.ImageId == imageUser.ImageId) ||
+                await _context.Images.AnyAsync(image => image.Owner.Id == comment.User.Id && image.Id == comment.ImageId))
             {
                 _context.Comments.Add(comment);
                 await _context.SaveChangesAsync();
+            }
+            else
+            {
+                throw new Exception("Unauthorized");
             }
         }
 
@@ -41,12 +46,16 @@ namespace Instaroot.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteComment(Comment comment)
+        public async Task DeleteComment(User user, int commentId)
         {
-            if (comment?.User?.Id == null || comment.ImageId == 0)
+            if (user?.Id == null || commentId == 0)
                 throw new ArgumentException("Null comment, user or imageId");
-            _context.Comments.Remove(comment);
-            await _context.SaveChangesAsync();
+            var comment = await _context.Comments.FindAsync(commentId);
+            if (comment != null && comment.User.Id == user.Id)
+            {
+                _context.Comments.Remove(comment);
+                await _context.SaveChangesAsync();
+            }
         }
     }
 }

@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 using Instaroot.Models;
 using Instaroot.Services;
 using Microsoft.ApplicationInsights.AspNetCore.Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Instaroot.Controllers
 {
+    [Authorize]
     public class ImagesController : Controller
     {
         private readonly IFileShockerService _fileShockerService;

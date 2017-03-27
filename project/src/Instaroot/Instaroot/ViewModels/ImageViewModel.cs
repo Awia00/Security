@@ -7,9 +7,10 @@ namespace Instaroot.ViewModels
 {
     public class ImageViewModel
     {
+        public int Id { get; set; }
         public bool IsOwner { get; set; }
         public string ImageUrl { get; set; }
-        public ICollection<CommentViewModel> Comments { get; set; }
-        public ICollection<string> SharedWithUsers { get; set; }
+        public List<CommentViewModel> Comments { get; set; }
+        public List<string> SharedWithUsers { get; set; }
     }
 }

@@ -9,6 +9,6 @@ namespace Instaroot.Services
         Task<IEnumerable<Comment>> GetComments(string userId);
         Task PostComment(Comment comment);
         Task PutComment(Comment comment);
-        Task DeleteComment(Comment comment);
+        Task DeleteComment(User user, int commentId);
     }
 }
