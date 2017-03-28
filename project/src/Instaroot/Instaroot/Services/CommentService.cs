@@ -50,9 +50,14 @@ namespace Instaroot.Services
         {
             if (user?.Id == null || commentId == 0)
                 throw new ArgumentException("Null comment, user or imageId");
+
             var comment = await _context.Comments.FindAsync(commentId);
-            if (comment != null && comment.User.Id == user.Id)
+
+            if (comment != null)
             {
+                if (comment.User.Id != user.Id)
+                    throw new UnauthorizedAccessException();
+
                 _context.Comments.Remove(comment);
                 await _context.SaveChangesAsync();
             }

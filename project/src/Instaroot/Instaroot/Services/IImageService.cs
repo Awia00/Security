@@ -11,6 +11,6 @@ namespace Instaroot.Services
         Task<IEnumerable<Image>> GetImages(string userId);
         Task<Image> GetImage(string userId, int id);
         Task PostImage(Image image);
-        Task DeleteImage(Image image);
+        Task DeleteImage(User user, int imageId);
     }
 }

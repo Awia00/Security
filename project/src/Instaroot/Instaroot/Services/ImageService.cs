@@ -42,13 +42,21 @@ namespace Instaroot.Services
             _context.Images.Add(image);
             await _context.SaveChangesAsync();
         }
-    
-        public async Task DeleteImage(Image image)
+
+        public async Task DeleteImage(User user, int imageId)
         {
-            if (image?.Owner?.Id == null)
+            if (user?.Id == null)
                 throw new ArgumentException("Null image or user");
-            _context.Images.Remove(image);
-            await _context.SaveChangesAsync();
+
+            var image = await _context.Images.FindAsync(imageId);
+            if (image != null)
+            {
+                if (image.Owner.Id != user.Id)
+                    throw new UnauthorizedAccessException();
+
+                _context.Images.Remove(image);
+                await _context.SaveChangesAsync();
+            }
         }
     }
 }

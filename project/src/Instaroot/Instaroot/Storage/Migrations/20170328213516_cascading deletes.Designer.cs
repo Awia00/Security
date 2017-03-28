@@ -8,9 +8,10 @@ using Instaroot.Storage.Database;
 namespace Instaroot.Storage.Migrations
 {
     [DbContext(typeof(InstarootContext))]
-    partial class InstarootContextModelSnapshot : ModelSnapshot
+    [Migration("20170328213516_cascading deletes")]
+    partial class cascadingdeletes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasDefaultSchema("public")

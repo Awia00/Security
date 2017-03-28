@@ -27,16 +27,23 @@ namespace Instaroot.Controllers
             _userManager = userManager;
         }
 
-        [HttpDelete]
+        [HttpPost]
         public async Task<IActionResult> Delete(int imageId)
         {
             if (ModelState.IsValid)
             {
-                await _imageService.DeleteImage(new Image
-                {
-                    Owner = await _userManager.GetUserAsync(User),
-                    TimeStamp = DateTime.Now
-                });
+                var user = await _userManager.GetUserAsync(User);
+                await _imageService.DeleteImage(user, imageId);
+            }
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Share(string username)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.GetUserAsync(User);
             }
             return RedirectToAction("Index", "Home");
         }

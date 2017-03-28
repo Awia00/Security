@@ -22,8 +22,8 @@ namespace Instaroot.Storage.Database
             modelBuilder.Entity<User>().HasMany(user => user.Comments).WithOne(comment => comment.User);
             modelBuilder.Entity<User>().HasMany(user => user.AccessibleImages).WithOne(imageUser => imageUser.User);
             modelBuilder.Entity<ImageUser>().HasKey(imageUser => new { imageUser.UserId, imageUser.ImageId });
-            modelBuilder.Entity<Image>().HasMany(image => image.Users).WithOne(imageUser => imageUser.Image);
-            modelBuilder.Entity<Image>().HasMany(image => image.Comments).WithOne(comment => comment.Image);
+            modelBuilder.Entity<Image>().HasMany(image => image.Users).WithOne(imageUser => imageUser.Image).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Image>().HasMany(image => image.Comments).WithOne(comment => comment.Image).OnDelete(DeleteBehavior.Cascade); ;
 
             //modelBuilder.Entity<IdentityUserLogin<string>>().HasKey(l => new {l.LoginProvider, l.ProviderKey, l.UserId});
         }
