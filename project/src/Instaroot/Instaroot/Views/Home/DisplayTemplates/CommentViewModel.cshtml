@@ -1,11 +1,20 @@
 ﻿@model CommentViewModel
+<div class="row" style="padding: 3px;">
+    <div class="col-sm-9 vcenter">
+        <span>
+            <b>@Html.DisplayFor(model => model.Author)</b> - @Html.DisplayFor(model => model.Text)
+        </span> 
+    </div>
 
-@Html.DisplayFor(model => model.Author) - @Html.DisplayFor(model => model.Text)
+    @if (Model.IsAuthor)
+    {
+        <div class="col-sm-1 pull-sm-right vcenter" style="padding: 3px">
+            <form asp-action="Delete" asp-controller="Comments" method="post">
+                <input type="hidden" name="commentId" value="@Model.Id"/>
+                <input type="submit" class="btn btn-danger" value="X"/>
+            </form>
+        </div>
+    }
+</div>
 
-@if (Model.IsAuthor)
-{
-    <form asp-action="Delete" asp-controller="Comments" method="post">
-        <input type="hidden" name="commentId" value="@Model.Id"/>
-        <input type="submit" class="btn btn-danger" value="X"/>
-    </form>
-}
+<hr style="padding: 2px; margin: 2px" />

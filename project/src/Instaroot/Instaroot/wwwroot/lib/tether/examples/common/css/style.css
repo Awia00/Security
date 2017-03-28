@@ -45,4 +45,8 @@ body > .container {
     background-color: rgba(210, 180, 140, 0.4);
     margin: -15px -15px 0 -15px;
 }
-
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
