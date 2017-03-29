@@ -12,5 +12,6 @@ namespace Instaroot.Services
         Task<Image> GetImage(string userId, int id);
         Task PostImage(Image image);
         Task DeleteImage(User user, int imageId);
+        Task Share(User sharer, int imageId, string shareWithUserName);
     }
 }

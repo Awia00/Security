@@ -39,11 +39,12 @@ namespace Instaroot.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Share(string username)
+        public async Task<IActionResult> Share(string shareWithUsername, int imageId)
         {
             if (ModelState.IsValid)
             {
                 var user = await _userManager.GetUserAsync(User);
+                await _imageService.Share(user, imageId, shareWithUsername);
             }
             return RedirectToAction("Index", "Home");
         }

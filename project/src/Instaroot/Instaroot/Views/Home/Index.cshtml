@@ -7,6 +7,7 @@
 
 @if (Model.Any())
 {
+    <button id="button-toggle-shared" class="btn btn-primary">Show only my images</button><br/>
     <div class="card-columns" style="column-count: 1; text-align: center">
         @Html.DisplayFor(model => model)
     </div>
@@ -19,3 +20,21 @@ else
     </div>
 }
 
+<script>
+    var hidden = false;
+
+    $(document).ready(function () {
+        var button = $("#button-toggle-shared");
+        button.click(function() {
+            if (hidden) {
+                button.html("Show only my images");
+                $(".image-shared").show();
+                hidden = false;
+            } else {
+                button.html("Show all images");
+                $(".image-shared").hide();
+                hidden = true;
+            }
+        });
+    });
+</script>

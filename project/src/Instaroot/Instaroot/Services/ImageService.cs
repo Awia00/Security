@@ -22,6 +22,7 @@ namespace Instaroot.Services
             return await Task.FromResult(_context.Images
                 .Include(image => image.Owner)
                 .Include(image => image.Users)
+                .Include("Users.User")
                 .Include(image => image.Comments)
                 .Where(image => image.Owner.Id == userId || image.Users.Any(imageUser => imageUser.UserId == userId)));
         }
@@ -57,6 +58,30 @@ namespace Instaroot.Services
                 _context.Images.Remove(image);
                 await _context.SaveChangesAsync();
             }
+        }
+
+        public async Task Share(User sharer, int imageId, string shareWithUserName)
+        {
+            if (sharer?.Id == null) throw new ArgumentNullException(nameof(sharer));
+
+            var image = await _context.Images.FindAsync(imageId);
+
+            if (image == null) throw new ArgumentException("Unknown imageId", nameof(imageId));
+
+            if (image.Owner.Id != sharer.Id)
+                throw new InvalidOperationException("The sharer is not owner of the image");
+
+            var shareWithUser = await _context.Users.SingleOrDefaultAsync(u => u.UserName == shareWithUserName);
+
+            if (shareWithUser == null) throw new ArgumentException("Unknown username", nameof(shareWithUserName));
+
+            _context.ImageUsers.Add(new ImageUser
+            {
+                ImageId = image.Id,
+                UserId = shareWithUser.Id
+            });
+
+            await _context.SaveChangesAsync();
         }
     }
 }
