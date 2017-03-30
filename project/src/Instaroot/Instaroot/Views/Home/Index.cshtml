@@ -7,7 +7,7 @@
 
 @if (Model.Any())
 {
-    <button id="button-toggle-shared" class="btn btn-primary">Show only my images</button><br/>
+    <button id="button-toggle-shared" class="btn btn-primary" style="margin: 5px">Show only my images</button>
     <div class="card-columns" style="column-count: 1; text-align: center">
         @Html.DisplayFor(model => model)
     </div>

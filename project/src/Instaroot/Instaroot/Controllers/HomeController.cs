@@ -24,18 +24,19 @@ namespace Instaroot.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            var userId = _userManager.GetUserId(User);
-            var images = await _imageService.GetImages(userId);
+            var loggedInUser = await _userManager.GetUserAsync(User);
+            var images = await _imageService.GetImages(loggedInUser.Id);
+            ViewBag.Username = loggedInUser.UserName;
             ViewBag.Usernames = (await _userService.GetUsers()).Select(user => user.UserName);
             return View(images.OrderByDescending(image => image.TimeStamp).Select(image => new ImageViewModel
             {
                 Id = image.Id,
-                IsOwner = image.Owner.Id == userId,
+                IsOwner = image.Owner.Id == loggedInUser.Id,
                 Comments = image.Comments.OrderByDescending(comment => comment.TimeStamp).Select(comment => new CommentViewModel
                 {
                     Text = comment.Text,
                     Author = comment.User.UserName,
-                    IsAuthor = comment.User.Id == userId,
+                    IsAuthor = comment.User.Id == loggedInUser.Id,
                     Id = comment.Id
                 }).ToList(),
                 ImageUrl = image.Path,

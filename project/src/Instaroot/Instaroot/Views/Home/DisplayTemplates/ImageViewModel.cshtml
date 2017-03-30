@@ -37,8 +37,8 @@
                     <form asp-action="Share" asp-controller="Images" method="post">
                         <input type="hidden" name="imageId" value="@Model.Id" />
                         <div class="col-sm-10">
-                            <select class="form-control" name="shareWithUsername">
-                                @foreach (var username in (ViewBag.UserNames as IEnumerable<string>))
+                            <select class="form-control" name="shareWithUsername" placeholder="Noone to share with">
+                                @foreach (var username in (ViewBag.UserNames as IEnumerable<string>).Where(user => !Model.SharedWithUsers.Contains(user) && user!=ViewBag.UserName))
                                 {
                                     <option value="@username">@username</option>
                                 }
