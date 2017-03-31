@@ -15,16 +15,21 @@ namespace Instaroot.Controllers
         private readonly IImageService _imageService;
         private readonly IUserService _userService;
         private readonly UserManager<User> _userManager;
+        private readonly ILoggingService _loggingService;
 
-        public HomeController(IImageService imageService, UserManager<User> userManager, IUserService userService)
+        public HomeController(IImageService imageService, UserManager<User> userManager, IUserService userService, ILoggingService loggingService)
         {
             _imageService = imageService;
             _userManager = userManager;
             _userService = userService;
+            _loggingService = loggingService;
         }
         public async Task<IActionResult> Index()
         {
             var loggedInUser = await _userManager.GetUserAsync(User);
+
+            await _loggingService.LogInfo($"{loggedInUser} is accessing the feed.");
+
             var images = await _imageService.GetImages(loggedInUser.Id);
             ViewBag.Username = new UserViewModel
             {
@@ -58,8 +63,10 @@ namespace Instaroot.Controllers
         }
 
         [AllowAnonymous]
-        public IActionResult Error()
+        public async Task<IActionResult> Error()
         {
+            await _loggingService.LogError("Someone goofed :-(");
+
             return View();
         }
     }

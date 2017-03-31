@@ -9,9 +9,10 @@ using Instaroot.Models;
 namespace Instaroot.Storage.Migrations
 {
     [DbContext(typeof(InstarootContext))]
-    partial class InstarootContextModelSnapshot : ModelSnapshot
+    [Migration("20170331172223_Logging")]
+    partial class Logging
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasDefaultSchema("public")

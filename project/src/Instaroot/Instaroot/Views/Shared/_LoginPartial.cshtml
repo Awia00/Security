@@ -12,15 +12,21 @@
     <li class="nav-item hidden-md-up">
         <a class="nav-link" data-toggle="modal" data-target="#uploadModal">Upload</a>
     </li>
+    if (User.IsInRole("Administrator"))
+    {
+        <li class="nav-item">
+            <a asp-controller="Logs" asp-action="Index" class="btn btn-link">Watch logs</a>
+        </li>
+    }
     <li class="nav-item">
         <form asp-controller="Accounts" asp-action="LogOut" method="post" id="logoutForm">
-            <button asp-controller="Accounts" asp-action="LogOut"class="btn btn-link navbar-btn navbar-link">Log off</button>
+            <input type="submit" class="btn btn-link" value="Log off" />
         </form>
     </li>
 
     <form class="form-inline pull-xs-right hidden-sm-down"  method="post" asp-action="Post" asp-controller="Images" enctype="multipart/form-data">
         <input id="image-inline" type="file" class="form-control" name="image" accept="image/*" required onchange="update_filename('image-inline','filename-inline')" hidden>
-        <div class="form-group has-primary">
+        <div class="form-group">
             <div class="input-group">
                 <span class="input-group-btn">
                     <button class="btn btn-primary-outline no-border-right" onclick="document.getElementById('image-inline').click();return false;">

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Instaroot.Models;
 using Instaroot.Storage.Database;
@@ -25,7 +24,7 @@ namespace Instaroot.Services
             return await Task.FromResult(_context.Users);
         }
 
-        public async Task UpdateUser(User user)
+        public Task UpdateUser(User user)
         {
             throw new NotImplementedException();
         }

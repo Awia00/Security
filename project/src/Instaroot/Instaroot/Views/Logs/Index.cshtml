@@ -1,0 +1,24 @@
+﻿@model ICollection<LogEntry>
+
+@{
+    ViewBag.Title = "Log";
+}
+
+<h2>Log</h2>
+
+<table style="width: 100%; table-layout: auto;">
+    <thead>
+    <td>Timestamp</td>
+    <td>Level</td>
+    <td>Log</td>
+    </thead>
+
+@foreach (var logEntry in Model)
+{
+    <tr>
+        <td>@Html.Encode(logEntry.TimeStamp.ToString("s"))</td>
+        <td>@Html.Encode(logEntry.LogLevel.ToString("G"))</td>
+        <td style="width: 65%; word-wrap: break-word">@Html.Encode(logEntry.Log)</td>
+    </tr>
+}
+</table>
