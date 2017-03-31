@@ -3,11 +3,13 @@
     ViewBag.Title = "Feed";
 }
 
-<h2>@ViewBag.Title</h2>
-
+<div style="margin: 10px">
+    <h2 style="display: inline-block; vertical-align: top">@ViewBag.Title</h2>
+    <button id="button-toggle-shared" class="btn btn-primary">Show only my images</button>
+</div>
 @if (Model.Any())
 {
-    <button id="button-toggle-shared" class="btn btn-primary" style="margin: 5px">Show only my images</button>
+    
     <div class="card-columns" style="column-count: 1; text-align: center">
         @Html.DisplayFor(model => model)
     </div>

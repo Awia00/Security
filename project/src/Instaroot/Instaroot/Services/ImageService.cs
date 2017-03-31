@@ -24,7 +24,8 @@ namespace Instaroot.Services
                 .Include(image => image.Users)
                 .Include("Users.User")
                 .Include(image => image.Comments)
-                .Where(image => image.Owner.Id == userId || image.Users.Any(imageUser => imageUser.UserId == userId)));
+                .Include("Comments.User")
+                .Where(image => image.Owner.Id == userId || image.Users.Any(imageUser => imageUser.UserId == userId && imageUser.ImageId == image.Id)));
         }
         public async Task<Image> GetImage(string userId, int id)
         {
@@ -60,7 +61,7 @@ namespace Instaroot.Services
             }
         }
 
-        public async Task Share(User sharer, int imageId, string shareWithUserName)
+        public async Task Share(User sharer, int imageId, string shareWithId)
         {
             if (sharer?.Id == null) throw new ArgumentNullException(nameof(sharer));
 
@@ -71,17 +72,39 @@ namespace Instaroot.Services
             if (image.Owner.Id != sharer.Id)
                 throw new InvalidOperationException("The sharer is not owner of the image");
 
-            var shareWithUser = await _context.Users.SingleOrDefaultAsync(u => u.UserName == shareWithUserName);
+            var shareWithUser = await _context.Users.FindAsync(shareWithId);
 
-            if (shareWithUser == null) throw new ArgumentException("Unknown username", nameof(shareWithUserName));
+            if (shareWithUser == null) throw new ArgumentException("Unknown userId", nameof(shareWithId));
 
             _context.ImageUsers.Add(new ImageUser
             {
+                Image = image,
                 ImageId = image.Id,
+                User = shareWithUser,
                 UserId = shareWithUser.Id
             });
 
             await _context.SaveChangesAsync();
+        }
+        public async Task Unshare(User sharer, int imageId, string sharedWithId)
+        {
+            if (sharer?.Id == null) throw new ArgumentNullException(nameof(sharer));
+
+            var image = await _context.Images.FindAsync(imageId);
+
+            if (image == null) throw new ArgumentException("Unknown imageId", nameof(imageId));
+
+            if (image.Owner.Id != sharer.Id && sharedWithId != sharer.Id)
+                throw new InvalidOperationException("The (un)sharer is not owner of the image or sharedwith person");
+
+            var imageUserRelation = await _context.ImageUsers.SingleOrDefaultAsync(relation => relation.UserId == sharedWithId && relation.ImageId == imageId);
+
+            if (imageUserRelation != null)
+            {
+                //_context.Comments.RemoveRange(_context.Comments.Include(comment => comment.User).Where(comment => comment.User.Id==sharedWithId && comment.ImageId == imageId));
+                _context.ImageUsers.Remove(imageUserRelation);
+                await _context.SaveChangesAsync();
+            }
         }
     }
 }

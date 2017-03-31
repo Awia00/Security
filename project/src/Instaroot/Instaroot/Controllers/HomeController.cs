@@ -26,21 +26,34 @@ namespace Instaroot.Controllers
         {
             var loggedInUser = await _userManager.GetUserAsync(User);
             var images = await _imageService.GetImages(loggedInUser.Id);
-            ViewBag.Username = loggedInUser.UserName;
-            ViewBag.Usernames = (await _userService.GetUsers()).Select(user => user.UserName);
+            ViewBag.Username = new UserViewModel
+            {
+                Id = loggedInUser.Id,
+                Username = loggedInUser.UserName
+            };
+            ViewBag.Usernames = (await _userService.GetUsers()).Select(user => new UserViewModel
+            {
+                Id = user.Id,
+                Username = user.UserName
+            });
             return View(images.OrderByDescending(image => image.TimeStamp).Select(image => new ImageViewModel
             {
                 Id = image.Id,
                 IsOwner = image.Owner.Id == loggedInUser.Id,
+                Username = image.Owner.UserName,
                 Comments = image.Comments.OrderByDescending(comment => comment.TimeStamp).Select(comment => new CommentViewModel
                 {
                     Text = comment.Text,
                     Author = comment.User.UserName,
                     IsAuthor = comment.User.Id == loggedInUser.Id,
-                    Id = comment.Id
+                    Id = comment.Id,
                 }).ToList(),
                 ImageUrl = image.Path,
-                SharedWithUsers = image.Users.Select(user => user.User.UserName).ToList()
+                SharedWithUsers = image.Users.Select(user => new UserViewModel
+                {
+                    Id = user.User.Id,
+                    Username = user.User.UserName
+                }).ToList()
             }).ToList());
         }
 
