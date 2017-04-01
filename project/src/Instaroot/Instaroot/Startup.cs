@@ -68,8 +68,8 @@ namespace Instaroot
             services.AddScoped<IImageService, ImageService>()
                 .AddScoped<ICommentService, CommentService>()
                 .AddScoped<IUserService, UserService>()
-                .AddScoped<IFileShockerService, FileShockerService>()
-                .AddScoped<ILoggingService, LoggingService>();
+                .AddScoped<ILoggingService, LoggingService>()
+                .AddSingleton<IFileShockerService>(new FileShockerService(Configuration.GetValue<string>("FileShockerUsername"), Configuration.GetValue<string>("FileShockerPassword"), new LoggingService(new InstarootContext())));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

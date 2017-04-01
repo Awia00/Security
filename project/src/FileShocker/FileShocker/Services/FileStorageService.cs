@@ -11,7 +11,7 @@ namespace FileShocker.Services
 
         public FileStorageService(string fileRootPath)
         {
-            this._fileRootPath = fileRootPath;
+            _fileRootPath = fileRootPath;
         }
 
         public async Task StoreFile(IFormFile file, string fileName)

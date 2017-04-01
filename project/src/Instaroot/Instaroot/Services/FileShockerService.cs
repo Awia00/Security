@@ -9,6 +9,17 @@ namespace Instaroot.Services
 {
     public class FileShockerService : IFileShockerService
     {
+        private readonly string _username;
+        private readonly string _password;
+        private readonly ILoggingService _loggingService;
+
+        public FileShockerService(string username, string password, ILoggingService loggingService)
+        {
+            _username = username;
+            _password = password;
+            _loggingService = loggingService;
+        }
+
         private const string FileshockerUrl = "http://localhost:51266/uploads";
         public async Task<string> UploadImage(IFormFile image)
         {
@@ -20,8 +31,8 @@ namespace Instaroot.Services
                     var data = binaryReader.ReadBytes((int)imageStream.Length);
                     var multipartFormContent = new MultipartFormDataContent();
                     var bytes = new ByteArrayContent(data);
-                    var username = new StringContent("fileshocker");
-                    var password = new StringContent("mikael92");
+                    var username = new StringContent(_username);
+                    var password = new StringContent(_password);
                     multipartFormContent.Add(bytes, "file", image.FileName);
                     multipartFormContent.Add(username, "username");
                     multipartFormContent.Add(password, "password");
