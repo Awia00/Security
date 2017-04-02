@@ -1,94 +1,95 @@
 ﻿@model ImageViewModel
 
-<div class="image @(Model.IsOwner ? "image-owned" : "image-shared")" style="max-width: 90%;">
-    <img src="@Model.ImageUrl" alt="Image should be here :-(" style="max-width: 100%;"/>
+<div class="card">
+    <div class="image @(Model.IsOwner ? "image-owned" : "image-shared")" style="max-width: 100%;">
+        <img src="@Model.ImageUrl" alt="Image should be here :-(" style="max-width: 100%;" />
 
-    <div class="row" style="padding: 25px">
-        <div class="col-sm-8" style="text-align: left; margin: 10px">
-            <div class="row">
-                <form method="post" asp-action="Post" asp-controller="Comments" style="padding-bottom: 5px;">
-                    <input type="hidden" name="imageId" value="@Model.Id"/>
-                    <div class="col-sm-11 vcenter">
+        <div class="row" style="padding: 25px">
+            <div class="col-sm-8" style="text-align: left; margin: 10px">
+                <form class="row" method="post" asp-action="Post" asp-controller="Comments" style="padding-bottom: 5px;">
+                    <input type="hidden" name="imageId" value="@Model.Id" />
+                    <div class="col-sm-10 vcenter">
                         <textarea name="comment" class="form-control" placeholder="Write a comment here" autocomplete="off" style="max-width: 100%; width: 100%"></textarea>
                     </div>
-                    <div class="col-sm-1 pull-sm-right vcenter" style="padding: 3px">
-                        <input type="submit" class="btn" value="Post"/>
+                    <div class="col-sm-2" style="padding: 3px">
+                        <input type="submit" class="vcenter btn pull-sm-right" value="Post" />
                     </div>
                 </form>
+                <br style="padding: 5px; margin: 5px;" />
+    
             </div>
-            <br style="padding: 5px; margin: 5px;"/>
-            @Html.DisplayFor(model => model.Comments)
-        </div>
-        <div class="col-sm-3" style="text-align: left; margin: 10px">
-            @if (!Model.IsOwner)
+            <div class="col-sm-3" style="text-align: left; margin: 10px">
+                @if (!Model.IsOwner)
             {
-                <div class="row pull-sm-right">
-                    <h5>Posted by @Model.Username</h5>
-                </div>
-            }
-            else
-            {
-                <div class="row">
-                    <div class="col-sm-9">
-                        <h5>Posted by you</h5>
+                    <div class="row pull-sm-right">
+                        <h5>Posted by @Model.Username</h5>
                     </div>
-                    <div class="col-sm-1 pull-sm-right">
-                        <form asp-action="Delete" asp-controller="Images" method="post">
-                            <input type="hidden" name="imageId" value="@Model.Id"/>
-                            <input type="submit" class="btn btn-danger" value="Delete" />
-                        </form>
-                    </div>
-                </div>
-                <div class="row" style="padding: 3px">
-                    @{
-                        var sharableUsers = (ViewBag.UserNames as IEnumerable<UserViewModel>).Where(user => Model.SharedWithUsers.All(sharedUser => sharedUser.Id != user.Id) && user.Id != ViewBag.UserName.Id).ToList();
-                        if (!sharableUsers.Any())
-                        {
-                            <div class="col-sm-10">
-                                <p>Noone to share with</p>
-                            </div>
-                        }
-                        else
-                        {
-                            <form asp-action="Share" asp-controller="Images" method="post">
-                                <input type="hidden" name="imageId" value="@Model.Id"/>
-                                <div class="col-sm-10">
-                                    <select class="form-control" name="shareWithId">
-                                        @foreach (var user in sharableUsers)
-                                        {
-                                            <option value="@user.Id">@user.Username</option>
-                                        }
-                                    </select>
-                                </div>
-                                <div class="col-sm-1 pull-sm-right">
-                                    <input type="submit" value="Share" class="btn btn-success"/>
-                                </div>
-                            </form>
-                        }
-                    }
-                </div>
-                foreach (var modelSharedWithUser in Model.SharedWithUsers)
-                {
-                    <div class="row" style="padding: 3px;">
-                        <div class="col-sm-9 vcenter">
-                            <span>
-                                <b>@modelSharedWithUser.Username</b>
-                            </span>
-                        </div>
-                        @if (Model.IsOwner || ViewBag.UserName.Id == modelSharedWithUser.Id)
-                        {
-                            <div class="col-sm-1 pull-sm-right vcenter" style="padding: 3px">
-                                <form asp-action="Unshare" asp-controller="Images" method="post">
-                                    <input type="hidden" name="imageId" value="@Model.Id"/>
-                                    <input type="hidden" name="sharedWithId" value="@modelSharedWithUser.Id"/>
-                                    <input type="submit" class="btn btn-danger" value="Unshare"/>
-                                </form>
-                            </div>
-                        }
-                    </div>
-                    <hr style="padding: 2px; margin: 2px"/>
                 }
-            }
+                else
+                {
+                    <div class="row">
+                        <div class="col-sm-10">
+                            <h5>Posted by you</h5>
+                        </div>
+                        <div class="col-sm-2 pull-sm-right">
+                            <form asp-action="Delete" asp-controller="Images" method="post">
+                                <input type="hidden" name="imageId" value="@Model.Id" />
+                                <input type="submit" class="btn btn-danger" value="Delete" />
+                            </form>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-top: 3px; padding-bottom: 3px">
+                        @{
+                            var sharableUsers = (ViewBag.UserNames as IEnumerable<UserViewModel>).Where(user => Model.SharedWithUsers.All(sharedUser => sharedUser.Id != user.Id) && user.Id != ViewBag.UserName.Id).ToList();
+                            if (!sharableUsers.Any())
+                            {
+                                <div class="col-sm-10">
+                                    <p>Noone to share with</p>
+                                </div>
+                            }
+                            else
+                            {
+                                <form asp-action="Share" asp-controller="Images" method="post">
+                                    <input type="hidden" name="imageId" value="@Model.Id" />
+                                    <div class="col-sm-10">
+                                        <select class="form-control" name="shareWithId">
+                                            @foreach (var user in sharableUsers)
+                                            {
+                                                <option value="@user.Id">@user.Username</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-2 pull-sm-right">
+                                        <input type="submit" value="Share" class="btn btn-success" />
+                                    </div>
+                                </form>
+                            }
+                        }
+                    </div>
+                            foreach (var modelSharedWithUser in Model.SharedWithUsers)
+                            {
+                                <div class="row" style="padding: 3px;">
+                                    <div class="col-sm-10 vcenter">
+                                        <span>
+                                            <b>@modelSharedWithUser.Username</b>
+                                        </span>
+                                    </div>
+                                    @if (Model.IsOwner || ViewBag.UserName.Id == modelSharedWithUser.Id)
+                                    {
+                                        <div class="col-sm-2 pull-sm-right vcenter" style="padding: 3px">
+                                            <form asp-action="Unshare" asp-controller="Images" method="post">
+                                                <input type="hidden" name="imageId" value="@Model.Id" />
+                                                <input type="hidden" name="sharedWithId" value="@modelSharedWithUser.Id" />
+                                                <input type="submit" class="btn btn-danger" value="Unshare" />
+                                            </form>
+                                        </div>
+                                    }
+                                </div>
+                                <hr style="padding: 2px; margin: 2px" />
+                                }
+                            }
+            </div>
+            @Html.DisplayFor(model => model.Comments)
         </div>
     </div>
 </div>

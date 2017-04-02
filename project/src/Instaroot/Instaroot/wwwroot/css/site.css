@@ -35,3 +35,11 @@ textarea {
         display: none;
     }
 }
+
+@media (min-width: 34em) {
+    .card-columns {
+        -webkit-column-count: 1;
+        -moz-column-count: 1;
+        column-count: 1;
+    }
+}
