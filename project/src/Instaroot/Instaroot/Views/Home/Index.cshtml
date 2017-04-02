@@ -6,13 +6,14 @@
 <div style="margin: 10px">
     <h2 style="display: inline-block; vertical-align: top">@ViewBag.Title</h2>
     <button id="button-toggle-shared" class="btn btn-primary" style="float: right;">Show only my images</button>
+    <button id="button-toggle-shared" class="btn btn-warning" style="float: right; margin-right: 10px;">Change layout</button>
 </div>
 @if (Model.Any())
 {
     /*<div class="card-columns" style="column-count: 1; text-align: center">
         @Html.DisplayFor(model => model)
     </div>*/
-    <div class="card-columns" >
+    <div class="card-columns" style="column-count: 2;" >
         @Html.DisplayFor(model => model)
     </div>
 }
@@ -26,7 +27,6 @@ else
 
 <script>
     var hidden = false;
-
     $(document).ready(function () {
         var button = $("#button-toggle-shared");
         button.click(function() {
