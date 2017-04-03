@@ -17,7 +17,7 @@
                             <textarea name="comment" class="form-control" placeholder="Write a comment here" autocomplete="off" style="max-width: 100%; width: 100%"></textarea>
                         </div>
                         <div class="col-sm-3">
-                            <input type="submit" class="btn" value="Post" style="float:right"/>
+                            <input type="submit" class="btn btn-primary" value="Post" style="float:right"/>
                         </div>
                     </form>
                 </div>
@@ -41,7 +41,7 @@
                             </form>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" style="padding:9px 0">
                         @{
                             var sharableUsers = (ViewBag.UserNames as IEnumerable<UserViewModel>).Where(user => Model.SharedWithUsers.All(sharedUser => sharedUser.Id != user.Id) && user.Id != ViewBag.UserName.Id).ToList();
                             if (!sharableUsers.Any())
@@ -52,7 +52,7 @@
                             }
                             else
                             {
-                                <form asp-action="Share" asp-controller="Images" method="post">
+                                <form class="vcenter" asp-action="Share" asp-controller="Images" method="post">
                                     <input type="hidden" name="imageId" value="@Model.Id"/>
                                     <div class="col-sm-9">
                                         <select class="form-control" name="shareWithId">
