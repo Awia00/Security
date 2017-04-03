@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Instaroot.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -69,7 +70,7 @@ namespace Instaroot
                 .AddScoped<ICommentService, CommentService>()
                 .AddScoped<IUserService, UserService>()
                 .AddScoped<ILoggingService, LoggingService>()
-                .AddScoped<IFileShockerService>(c => new FileShockerService(Configuration.GetValue<string>("FileShockerUsername"), Configuration.GetValue<string>("FileShockerPassword"), c.GetRequiredService<ILoggingService>()));
+                .AddScoped<IFileShockerService>(c => new FileShockerService(Configuration.GetValue<string>("FileShockerUsername"), Configuration.GetValue<string>("FileShockerPassword"), Configuration.GetValue<string>("FileShockerAddress"), c.GetRequiredService<ILoggingService>()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -104,52 +105,66 @@ namespace Instaroot
 
         private void SetupInitial(IApplicationBuilder app)
         {
-            var userManager = app.ApplicationServices.GetRequiredService<UserManager<User>>();
-            var roleManager = app.ApplicationServices.GetRequiredService<RoleManager<IdentityRole>>();
-
-            if (userManager == null) throw new Exception("User manager :-(");
-            if (roleManager == null) throw new Exception("Role manager :-(");
-
-            if (!roleManager.Roles.Any(role => role.Name == "Administrator"))
+            Task.Run(async () =>
             {
-                var result = roleManager.CreateAsync(new IdentityRole("Administrator")).Result;
-                var root = userManager.Users.FirstOrDefault(user => user.UserName == "instaroot");
+                var userManager = app.ApplicationServices.GetRequiredService<UserManager<User>>();
+                var roleManager = app.ApplicationServices.GetRequiredService<RoleManager<IdentityRole>>();
 
-                if (root == null)
+                if (userManager == null) throw new Exception("User manager :-(");
+                if (roleManager == null) throw new Exception("Role manager :-(");
+
+                if (!roleManager.Roles.Any(role => role.Name == "Administrator"))
                 {
-                    result = userManager.CreateAsync(new User
+                    await roleManager.CreateAsync(new IdentityRole("Administrator"));
+                    var root = userManager.Users.FirstOrDefault(user => user.UserName == "instaroot");
+
+                    if (root == null)
+                    {
+                        var result = await userManager.CreateAsync(new User
                         {
                             UserName = "instaroot",
                             Email = "instaroot@instaroot.com",
-                        }, Configuration.GetValue<string>("RootUserPassword"))
-                        .Result;
+                        }, Configuration.GetValue<string>("RootUserPassword"));
 
-                    root = userManager.Users.First(user => user.UserName == "instaroot");
+                        root = userManager.Users.First(user => user.UserName == "instaroot");
 
-                    if (result.Succeeded)
-                    {
-                        result = userManager.AddToRoleAsync(root, "Administrator").Result;
+                        if (result.Succeeded)
+                        {
+                            result = userManager.AddToRoleAsync(root, "Administrator").Result;
 
-                        if (!result.Succeeded)
+                            if (!result.Succeeded)
+                            {
+                                throw new Exception(":-(");
+                            }
+                        }
+                        else
                         {
                             throw new Exception(":-(");
                         }
                     }
-                    else
+                    await userManager.CreateAsync(new User
                     {
-                        throw new Exception(":-(");
-                    }
-                }
+                        UserName = "Alice",
+                        Email = "alice@instaroot.com",
+                    }, "Hi_1'm:411c3|");
+                    await userManager.CreateAsync(new User
+                    {
+                        UserName = "Bob",
+                        Email = "bob@instaroot.com",
+                    }, "Hi_1'm:808|");
+                    await userManager.CreateAsync(new User
+                    {
+                        UserName = "Claire",
+                        Email = "claire@instaroot.com",
+                    }, "Hi_1'm:C141r3|");
 
 
 
-                var context = app.ApplicationServices.GetService<InstarootContext>();
+                    var context = app.ApplicationServices.GetService<InstarootContext>();
 
-                if (!context.Images.Any())
-                {
-                    context.Images.AddRange(
-                        new Image[]
-                        {
+                    if (!context.Images.Any())
+                    {
+                        context.Images.AddRange(
                             new Image
                             {
                                 Id = -3,
@@ -170,12 +185,12 @@ namespace Instaroot
                                 Owner = root,
                                 Path = "http://localhost:49269/uploads/4581a1b9-6a82-4881-b775-ff75afefb259.jpg",
                                 TimeStamp = DateTime.Now
-                            }
-                        });
+                            });
 
-                    context.SaveChanges();
+                        await context.SaveChangesAsync();
+                    }
                 }
-            }
+            }).Wait();
         }
     }
 }

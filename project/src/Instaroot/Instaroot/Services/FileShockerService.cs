@@ -11,16 +11,17 @@ namespace Instaroot.Services
     {
         private readonly string _username;
         private readonly string _password;
+        private readonly string _fileshockerAddress;
         private readonly ILoggingService _loggingService;
 
-        public FileShockerService(string username, string password, ILoggingService loggingService)
+        public FileShockerService(string username, string password, string fileshockerAddress, ILoggingService loggingService)
         {
             _username = username;
             _password = password;
             _loggingService = loggingService;
+            _fileshockerAddress = fileshockerAddress;
         }
-
-        private const string FileshockerUrl = "http://localhost:51266/uploads";
+        
         public async Task<string> UploadImage(IFormFile image)
         {
             using (var client = new HttpClient())
@@ -36,7 +37,7 @@ namespace Instaroot.Services
                     multipartFormContent.Add(bytes, "file", image.FileName);
                     multipartFormContent.Add(username, "username");
                     multipartFormContent.Add(password, "password");
-                    var response = await client.PostAsync(new Uri(FileshockerUrl), multipartFormContent);
+                    var response = await client.PostAsync(new Uri(_fileshockerAddress), multipartFormContent);
                     if (response.IsSuccessStatusCode)
                     {
                         return response.Headers.Location.ToString();
