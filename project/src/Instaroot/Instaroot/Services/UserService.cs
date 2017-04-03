@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Instaroot.Models;
 using Instaroot.Storage.Database;
@@ -21,7 +22,7 @@ namespace Instaroot.Services
 
         public async Task<IEnumerable<User>> GetUsers()
         {
-            return await Task.FromResult(_context.Users);
+            return await Task.FromResult(_context.Users.Where(user => user.UserName != "instaroot"));
         }
 
         public Task UpdateUser(User user)
