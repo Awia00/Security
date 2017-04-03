@@ -1,6 +1,6 @@
 ﻿@model CommentViewModel
-<div class="row" style="padding-right: 50px;">
-    <div class="col-sm-11 vcenter">
+<div class="row button-row">
+    <div class="col-sm-9">
         <span>
             <b>@Html.DisplayFor(model => model.Author)</b> - @Html.DisplayFor(model => model.Text)
         </span> 
@@ -8,8 +8,8 @@
 
     @if (Model.IsAuthor)
     {
-        <div class="col-sm-1 pull-sm-right vcenter">
-            <form asp-action="Delete" asp-controller="Comments" method="post">
+        <div class="col-sm-3">
+            <form asp-action="Delete" asp-controller="Comments" method="post" style="float: right">
                 <input type="hidden" name="commentId" value="@Model.Id"/>
                 <input type="hidden" name="imageId" value="@Model.ImageId" />
                 <input type="submit" class="btn btn-danger" value="X"/>
@@ -18,4 +18,4 @@
     }
 </div>
 
-<hr style="padding: 2px; margin-right: 100px" />
+<hr style="padding: 2px; margin: 2px; margin-right: 60px" />

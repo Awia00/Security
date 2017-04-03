@@ -43,3 +43,14 @@ textarea {
         column-count: 2;
     }
 }
+
+.vcenter {
+    display: flex;
+    align-items: center;
+}
+
+.button-row {
+    display: flex;
+    align-items: flex-end;
+    height: 38px;
+}

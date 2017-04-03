@@ -8,17 +8,35 @@
     <button id="button-toggle-shared" class="btn btn-primary" style="float: right;">Show only my images</button>
     <button id="button-toggle-layout" class="btn btn-warning" style="float: right; margin-right: 10px;">Change layout</button>
 </div>
-@if (Model.Any())
-{
-    @Html.DisplayFor(model => model)
-}
-else
-{
-    <div class="container text-sm-center">
-        <h1>You have nothing in your feed..</h1>
-        <p class="lead"> Upload a picture to get started!</p>
-    </div>
-}
+<div class="row">
+    @if (Model.Any())
+    {
+        for (var i = 0; i < Model.Count; i++)
+        {
+            if (i % 2 == 0)
+            {
+                @Html.Raw("<div class=\"row\">")
+                    @Html.DisplayFor(model => model[i])
+            }
+            else
+            {
+                @Html.DisplayFor(model => model[i])
+                @Html.Raw("</div>")
+            }
+        }
+        if (Model.Count % 2 == 1)
+        {
+            @Html.Raw("</div>")
+        }
+    }
+    else
+    {
+        <div class="container text-sm-center">
+            <h1>You have nothing in your feed..</h1>
+            <p class="lead"> Upload a picture to get started!</p>
+        </div>
+    }
+</div>
 
 <script>
     var hidden = false;
@@ -51,8 +69,6 @@ else
                 comments.removeClass("col-md-12").addClass("col-md-6");
 
                 attributes.each(function(index, element) {
-                    debugger;
-
                     $(comments.get(index)).insertBefore(element);
                 });
 
@@ -65,8 +81,6 @@ else
                 comments.removeClass("col-md-6").addClass("col-md-12");
 
                 attributes.each(function(index, element) {
-                    debugger;
-
                     $(comments.get(index)).insertAfter(element);
                 });
 
