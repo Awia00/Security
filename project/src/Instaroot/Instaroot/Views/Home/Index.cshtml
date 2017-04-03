@@ -6,15 +6,11 @@
 <div style="margin: 10px">
     <h2 style="display: inline-block; vertical-align: top">@ViewBag.Title</h2>
     <button id="button-toggle-shared" class="btn btn-primary" style="float: right;">Show only my images</button>
+    <button id="button-toggle-layout" class="btn btn-warning" style="float: right; margin-right: 10px;">Change layout</button>
 </div>
 @if (Model.Any())
 {
-    /*<div class="card-columns" style="column-count: 1; text-align: center">
-        @Html.DisplayFor(model => model)
-    </div>*/
-    <div class="card-columns" >
-        @Html.DisplayFor(model => model)
-    </div>
+    @Html.DisplayFor(model => model)
 }
 else
 {
@@ -26,18 +22,55 @@ else
 
 <script>
     var hidden = false;
-
+    var isGrid = false;
     $(document).ready(function () {
-        var button = $("#button-toggle-shared");
-        button.click(function() {
+        var shareButton = $("#button-toggle-shared");
+        shareButton.click(function() {
             if (hidden) {
-                button.html("Show only my images");
+                shareButton.html("Show only my images");
                 $(".image-shared").show();
                 hidden = false;
             } else {
-                button.html("Show all images");
+                shareButton.html("Show all images");
                 $(".image-shared").hide();
                 hidden = true;
+            }
+        });
+
+        var layoutButton = $("#button-toggle-layout");
+        layoutButton.click(function() {
+            var containers = $(".container-image");
+            var attributes = $(".image-attributes");
+            var comments = $(".image-comments");
+
+            if (isGrid) {
+                containers.removeClass("col-md-6");
+                containers.addClass("col-md-12");
+
+                attributes.removeClass("col-md-12").addClass("col-md-6");
+                comments.removeClass("col-md-12").addClass("col-md-6");
+
+                attributes.each(function(index, element) {
+                    debugger;
+
+                    $(comments.get(index)).insertBefore(element);
+                });
+
+                isGrid = false;
+            } else {
+                containers.removeClass("col-md-12");
+                containers.addClass("col-md-6");
+
+                attributes.removeClass("col-md-6").addClass("col-md-12");
+                comments.removeClass("col-md-6").addClass("col-md-12");
+
+                attributes.each(function(index, element) {
+                    debugger;
+
+                    $(comments.get(index)).insertAfter(element);
+                });
+
+                isGrid = true;
             }
         });
     });
