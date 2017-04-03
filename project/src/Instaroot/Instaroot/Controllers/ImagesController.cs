@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Instaroot.Models;
 using Instaroot.Services;
-using Microsoft.ApplicationInsights.AspNetCore.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -68,11 +67,8 @@ namespace Instaroot.Controllers
             if (ModelState.IsValid && image.ContentType.StartsWith("image/"))
             {
                 await _loggingService.LogTrace("Received well-formatted image.");
-                var imageUrl = await _fileShockerService.UploadImage(image);
 
-                var uri = Request.GetUri();
-                var port = uri.Port == 80 ? "" : $":{uri.Port}";
-                imageUrl = $"http://{uri.Host}{port}/uploads/{imageUrl}";
+                var imageUrl = $"uploads/{await _fileShockerService.UploadImage(image)}";
 
                 await _loggingService.LogTrace($"About to upload image to FileShocker on url: {imageUrl}.");
                 imageId = await _imageService.PostImage(new Image

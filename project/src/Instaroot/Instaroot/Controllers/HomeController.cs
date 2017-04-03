@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Instaroot.Models;
 using Instaroot.Services;
 using Instaroot.ViewModels;
+using Microsoft.ApplicationInsights.AspNetCore.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -41,6 +42,11 @@ namespace Instaroot.Controllers
                 Id = user.Id,
                 Username = user.UserName
             });
+
+            var uri = Request.GetUri();
+            var portString = uri.Port != 80 ? $":{uri.Port}" : "";
+            var uriBase = $"{uri.Scheme}://{uri.Host}{portString}/";
+
             return View(images.OrderByDescending(image => image.TimeStamp).Select(image => new ImageViewModel
             {
                 Id = image.Id,
@@ -54,7 +60,7 @@ namespace Instaroot.Controllers
                     Id = comment.Id,
                     ImageId = image.Id
                 }).ToList(),
-                ImageUrl = image.Path,
+                ImageUrl = uriBase + image.Path,
                 SharedWithUsers = image.Users.Select(user => new UserViewModel
                 {
                     Id = user.User.Id,
