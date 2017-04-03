@@ -37,12 +37,13 @@ namespace Instaroot.Services
             return await GetAccessibleImages(userId);
         }
 
-        public async Task PostImage(Image image)
+        public async Task<int> PostImage(Image image)
         {
             if (image?.Owner?.Id == null)
                 throw new ArgumentException("Null image or user");
             _context.Images.Add(image);
             await _context.SaveChangesAsync();
+            return image.Id;
         }
 
         public async Task DeleteImage(User user, int imageId)

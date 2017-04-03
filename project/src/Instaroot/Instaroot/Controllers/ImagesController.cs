@@ -47,7 +47,7 @@ namespace Instaroot.Controllers
                 await _imageService.Share(user, imageId, shareWithId);
                 await _loggingService.LogInfo($"{user.UserName} now shares image with id {imageId} with user with id {shareWithId}.");
             }
-            return RedirectToAction("Index", "Home");
+            return this.RedirectToRegion("Index", "Home", $"image{imageId}");
         }
         [HttpPost]
         public async Task<IActionResult> UnShare(string sharedWithId, int imageId)
@@ -58,12 +58,13 @@ namespace Instaroot.Controllers
                 await _imageService.Unshare(user, imageId, sharedWithId);
                 await _loggingService.LogInfo($"{user.UserName} removed sharing of image with id {imageId} from user with id {sharedWithId}.");
             }
-            return RedirectToAction("Index", "Home");
+            return this.RedirectToRegion("Index", "Home", $"image{imageId}");
         }
 
         [HttpPost]
         public async Task<IActionResult> Post(IFormFile image)
         {
+            var imageId = 0;
             if (ModelState.IsValid && image.ContentType.StartsWith("image/"))
             {
                 await _loggingService.LogTrace("Received well-formatted image.");
@@ -74,15 +75,15 @@ namespace Instaroot.Controllers
                 imageUrl = $"http://{uri.Host}{port}/uploads/{imageUrl}";
 
                 await _loggingService.LogTrace($"About to upload image to FileShocker on url: {imageUrl}.");
-                await _imageService.PostImage(new Image
+                imageId = await _imageService.PostImage(new Image
                 {
                     Owner = await _userManager.GetUserAsync(User),
                     Path = imageUrl,
                     TimeStamp = DateTime.Now
                 });
-                await _loggingService.LogInfo("Image uploaded at FileShocker succesfully.");
+                await _loggingService.LogInfo($"Image with id {imageId} uploaded at FileShocker succesfully.");
             }
-            return RedirectToAction("Index", "Home");
+            return this.RedirectToRegion("Index", "Home", $"image{imageId}");
         }
     }
 }

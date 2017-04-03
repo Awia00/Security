@@ -6,5 +6,6 @@
         public string Author { get; set; }
         public bool IsAuthor { get; set; }
         public int Id { get; set; }
+        public int ImageId { get; set; }
     }
 }

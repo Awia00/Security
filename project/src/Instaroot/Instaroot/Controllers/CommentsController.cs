@@ -23,7 +23,7 @@ namespace Instaroot.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(int commentId)
+        public async Task<IActionResult> Delete(int commentId, int imageId)
         {
             if (ModelState.IsValid)
             {
@@ -37,7 +37,7 @@ namespace Instaroot.Controllers
                 await _loggingService.LogError($"{_userManager.GetUserName(User)} had issues deleting a comment.");
             }
 
-            return RedirectToAction("Index", "Home");
+            return this.RedirectToRegion("Index", "Home", $"image{imageId}");
         }
 
         [HttpPost]
@@ -60,7 +60,7 @@ namespace Instaroot.Controllers
             {
                 await _loggingService.LogError($"{_userManager.GetUserName(User)} had issues posting a comment.");
             }
-            return RedirectToAction("Index", "Home");
+            return this.RedirectToRegion("Index", "Home", $"image{imageId}");
         }
     }
 }

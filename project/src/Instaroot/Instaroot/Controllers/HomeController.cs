@@ -52,6 +52,7 @@ namespace Instaroot.Controllers
                     Author = comment.User.UserName,
                     IsAuthor = comment.User.Id == loggedInUser.Id,
                     Id = comment.Id,
+                    ImageId = image.Id
                 }).ToList(),
                 ImageUrl = image.Path,
                 SharedWithUsers = image.Users.Select(user => new UserViewModel
