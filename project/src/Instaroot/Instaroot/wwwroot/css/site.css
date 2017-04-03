@@ -52,5 +52,10 @@ textarea {
 .button-row {
     display: flex;
     align-items: flex-end;
-    height: 38px;
+    min-height: 38px;
+}
+
+.col-sm-3 form, .col-sm-3 .btn {
+    width: 100%;
+    max-width: 100%;
 }

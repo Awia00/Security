@@ -6,18 +6,18 @@
 
 <div class="col-md-12 container-image">
     <div id="@anchor" class="card @(Model.IsOwner ? "image-owned" : "image-shared")" style="max-width: 100%;">
-        <img src="@Model.ImageUrl" alt="Image should be here :-(" style="max-width: 100%;"/>
+        <img src="@Model.ImageUrl" alt="Image should be here :-(" style="width: 100%;"/>
 
         <div class="row" style="padding: 25px">
             <div class="image-comments col-md-6">
-                <div class="row">
-                    <form method="post" asp-action="Post" asp-controller="Comments">
+                <div class="row" style="padding-bottom: 20px">
+                    <form method="post" asp-action="Post" asp-controller="Comments" >
                         <input type="hidden" name="imageId" value="@Model.Id"/>
                         <div class="col-sm-9">
                             <textarea name="comment" class="form-control" placeholder="Write a comment here" autocomplete="off" style="max-width: 100%; width: 100%"></textarea>
                         </div>
                         <div class="col-sm-3">
-                            <input type="submit" class="btn btn-primary" value="Post" style="float:right"/>
+                            <input type="submit" class="btn btn-primary" value="Post"/>
                         </div>
                     </form>
                 </div>
@@ -26,16 +26,18 @@
             <div class="image-attributes col-md-6">
                 @if (!Model.IsOwner)
                 {
-                    <h5>Posted by @Model.Username</h5>
+                    <div class="row">
+                        <h5 style="float: right">Posted by @Model.Username</h5>
+                    </div>
                 }
                 else
                 {
-                    <div class="row">
+                    <div class="row vcenter">
                         <div class="col-sm-9">
-                            <h5>Posted by you</h5>
+                            <h5 style="float: right">Posted by you</h5>
                         </div>
                         <div class="col-sm-3">
-                            <form asp-action="Delete" asp-controller="Images" method="post" style="float:right">
+                            <form asp-action="Delete" asp-controller="Images" method="post">
                                 <input type="hidden" name="imageId" value="@Model.Id"/>
                                 <input type="submit" class="btn btn-danger" value="Delete"/>
                             </form>
@@ -55,7 +57,7 @@
                                 <form class="vcenter" asp-action="Share" asp-controller="Images" method="post">
                                     <input type="hidden" name="imageId" value="@Model.Id"/>
                                     <div class="col-sm-9">
-                                        <select class="form-control" name="shareWithId">
+                                        <select class="form-control" name="shareWithId" style="max-width: 100%">
                                             @foreach (var user in sharableUsers)
                                             {
                                                 <option value="@user.Id">@user.Username</option>
@@ -63,7 +65,7 @@
                                         </select>
                                     </div>
                                     <div class="col-sm-3">
-                                        <input type="submit" value="Share" class="btn btn-success" style="float: right"/>
+                                        <input type="submit" value="Share" class="btn btn-success"/>
                                     </div>
                                 </form>
                             }
@@ -80,7 +82,7 @@
                             @if (Model.IsOwner || ViewBag.UserName.Id == modelSharedWithUser.Id)
                             {
                                 <div class="col-sm-3">
-                                    <form asp-action="Unshare" asp-controller="Images" method="post" style="float:right">
+                                    <form asp-action="Unshare" asp-controller="Images" method="post">
                                         <input type="hidden" name="imageId" value="@Model.Id"/>
                                         <input type="hidden" name="sharedWithId" value="@modelSharedWithUser.Id"/>
                                         <input type="submit" class="btn btn-warning" value="Unshare"/>
@@ -88,7 +90,7 @@
                                 </div>
                             }
                         </div>
-                        <hr style="padding: 2px; margin: 2px"/>
+                        <hr style="padding: 2px; margin: 2px; margin-right: 120px"/>
                     }
                 }
             </div>
