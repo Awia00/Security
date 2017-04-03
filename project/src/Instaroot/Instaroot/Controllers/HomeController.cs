@@ -43,10 +43,6 @@ namespace Instaroot.Controllers
                 Username = user.UserName
             });
 
-            var uri = Request.GetUri();
-            var portString = uri.Port != 80 ? $":{uri.Port}" : "";
-            var uriBase = $"{uri.Scheme}://{uri.Host}{portString}/";
-
             return View(images.OrderByDescending(image => image.TimeStamp).Select(image => new ImageViewModel
             {
                 Id = image.Id,
@@ -60,7 +56,7 @@ namespace Instaroot.Controllers
                     Id = comment.Id,
                     ImageId = image.Id
                 }).ToList(),
-                ImageUrl = uriBase + image.Path,
+                ImageUrl = image.Path,
                 SharedWithUsers = image.Users.Select(user => new UserViewModel
                 {
                     Id = user.User.Id,

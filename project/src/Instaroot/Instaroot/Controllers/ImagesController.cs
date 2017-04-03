@@ -68,7 +68,7 @@ namespace Instaroot.Controllers
             {
                 await _loggingService.LogTrace("Received well-formatted image.");
 
-                var imageUrl = $"uploads/{await _fileShockerService.UploadImage(image)}";
+                var imageUrl = $"/uploads/{await _fileShockerService.UploadImage(image)}";
 
                 await _loggingService.LogTrace($"About to upload image to FileShocker on url: {imageUrl}.");
                 imageId = await _imageService.PostImage(new Image

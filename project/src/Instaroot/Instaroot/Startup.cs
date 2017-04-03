@@ -167,21 +167,21 @@ namespace Instaroot
                             {
                                 Id = -3,
                                 Owner = root,
-                                Path = "uploads/246e6781-a681-4f84-9dc9-2751a26877f4.jpg",
+                                Path = "/uploads/246e6781-a681-4f84-9dc9-2751a26877f4.jpg",
                                 TimeStamp = DateTime.Now
                             },
                             new Image
                             {
                                 Id = -2,
                                 Owner = root,
-                                Path = "uploads/491e80ec-dd49-4788-bbb1-7c37efdaa043.jpg",
+                                Path = "/uploads/491e80ec-dd49-4788-bbb1-7c37efdaa043.jpg",
                                 TimeStamp = DateTime.Now
                             },
                             new Image
                             {
                                 Id = -1,
                                 Owner = root,
-                                Path = "uploads/4581a1b9-6a82-4881-b775-ff75afefb259.jpg",
+                                Path = "/uploads/4581a1b9-6a82-4881-b775-ff75afefb259.jpg",
                                 TimeStamp = DateTime.Now
                             });
 
