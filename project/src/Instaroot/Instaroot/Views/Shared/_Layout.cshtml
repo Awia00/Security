@@ -13,11 +13,8 @@
 <body>
     <div class="container">
         <nav class="navbar navbar-light bg-faded" role="navigation">
-            <button class="navbar-toggler hidden-sm-up" type="button" data-toggle="collapse" data-target="#collapsing-navbar">
-                &#9776;
-            </button>
             <a asp-controller="Home" asp-action="Index" class="navbar-brand">Instaroot</a>
-            <div class="collapse navbar-toggleable-xs" id="collapsing-navbar">
+            <div class=" navbar-toggleable-xs" id="collapsing-navbar">
                 <ul class="nav navbar-nav">
                     @await Html.PartialAsync("_LoginPartial")
                 </ul>
