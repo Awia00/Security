@@ -27,7 +27,6 @@ namespace FileShocker
             // Add framework services.
             services.AddMvc();
 
-            services.AddSingleton<ILoginManager>(new LoginManager(Configuration.GetValue<string>("fileshockerUsername"), Configuration.GetValue<string>("fileshockerPassword")));
             services.AddSingleton<IFileStorageService>(new FileStorageService(Configuration.GetValue<string>("fileshockerFileFolder")));
         }
 

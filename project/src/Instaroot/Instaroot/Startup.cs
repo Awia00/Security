@@ -51,8 +51,8 @@ namespace Instaroot
                     options.Password.RequireLowercase = false;
 
                     // Lockout settings
-                    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
-                    options.Lockout.MaxFailedAccessAttempts = 10;
+                    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(0);
+                    options.Lockout.MaxFailedAccessAttempts = int.MaxValue;
 
                     // Cookie settings
                     options.Cookies.ApplicationCookie.ExpireTimeSpan = TimeSpan.FromDays(15);
@@ -70,7 +70,7 @@ namespace Instaroot
                 .AddScoped<ICommentService, CommentService>()
                 .AddScoped<IUserService, UserService>()
                 .AddScoped<ILoggingService, LoggingService>()
-                .AddScoped<IFileShockerService>(c => new FileShockerService(Configuration.GetValue<string>("FileShockerUsername"), Configuration.GetValue<string>("FileShockerPassword"), Configuration.GetValue<string>("FileShockerAddress"), c.GetRequiredService<ILoggingService>()));
+                .AddScoped<IFileShockerService>(c => new FileShockerService(Configuration.GetValue<string>("FileShockerAddress")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

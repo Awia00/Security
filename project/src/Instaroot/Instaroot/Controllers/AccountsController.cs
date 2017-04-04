@@ -39,7 +39,7 @@ namespace Instaroot.Controllers
             if (ModelState.IsValid)
             {
                 await _loggingService.LogTrace($"{model.UserName} is trying to log in.");
-                var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, lockoutOnFailure: true);
+                var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
                     await _loggingService.LogTrace($"{model.UserName} logged in succesfully.");
