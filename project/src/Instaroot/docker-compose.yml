@@ -1,0 +1,8 @@
+version: '2'
+
+services:
+  instaroot:
+    image: instaroot
+    build:
+      context: ./Instaroot
+      dockerfile: Dockerfile
