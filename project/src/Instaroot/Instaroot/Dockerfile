@@ -1,4 +1,4 @@
-FROM microsoft/dotnet:1-runtime
+FROM microsoft/aspnetcore-build
 COPY . /app
 WORKDIR /app
 EXPOSE 5000/tcp
