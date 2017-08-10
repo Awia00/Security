@@ -1,4 +1,4 @@
-FROM microsoft/dotnet:latest
+FROM microsoft/dotnet:1-runtime
 COPY . /app
 WORKDIR /app
 EXPOSE 5000/tcp
